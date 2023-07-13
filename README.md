@@ -1,6 +1,6 @@
 # Dogecoin Core in a Docker container
 
-Run a Dogecoin fullnode in a Docker container
+Run a Dogecoin fullnode in a Docker container / swarm stack
 
 **But why should I do that?!**
 
@@ -14,17 +14,18 @@ Run a Dogecoin fullnode in a Docker container
 
 It's not that hard, actually. There are two ways to get it up and running:
 
-### Pull and run the image from the [Docker Store](https://hub.docker.com/r/evaluationcopy/dogecoin-node)
+### Pull and run the image from the [Docker Store](https://hub.docker.com/r/jkubo/dogecoin-core)
 
-You only need to run one command to get it up and running:
-
+You can deploy a stack in Docker swarm mode
 ```bash
-
-docker run -p 22556:22556 -v /localfolder/dogevolume:/root/.dogecoin evaluationcopy/dogecoin-node:latest
-
+docker stack deploy -c docker-stack.yml dogecoin
+```
+Or also deploy standalone containers
+```bash
+docker run -p 22556:22556 -v /mnt/ssd/dogecoin:/home/dogecoin/.dogecoin jkubo/dogecoin-core:latest
 ```
 
-Change the value for /localfolder/dogevolume above to an absolute path on your system where Dogecoin Core can store the blockchain data.
+Change the value for `/mnt/ssd/dogecoin` above to an absolute path on your system where Dogecoin Core can store the blockchain data.
 
 It is possible to run without a volume, however the blockchain data will be deleted each time you run it.  This may not be wise as 
 it can take days to download the full blockchain.
@@ -38,19 +39,19 @@ Here's an example of a customized command argument for -maxuploadtarget=20000.
 
 ```bash
 
-docker run -p 22556:22556 -v /localfolder/dogevolume:/root/.dogecoin evaluationcopy/dogecoin-node:latest dogecoind -printtoconsole -maxuploadtarget=20000
+docker run -p 22556:22556 -v /mnt/ssd/dogecoin:/home/dogecoin/.dogecoin jkubo/dogecoin-core:latest dogecoind -printtoconsole -maxuploadtarget=20000
 
 ```
 
 ## How to build
 
-The build assumes the web links for Dogecoin Core will be consistent, matching the current format:  https://github.com/dogecoin/dogecoin/releases/download/v1.14.4/dogecoin-1.14.4-x86_64-linux-gnu.tar.gz
+The build assumes the web links for Dogecoin Core will be consistent: https://github.com/dogecoin/dogecoin/releases
 
 Given that, version must be specified on the commandline.  The build is run as follows:
 
 ```bash
 
-sudo docker build --build-arg version=1.14.4 . -t=doge:latest
+sudo docker build --build-arg version=1.14.6 . -t=dogecoin-core:latest
 
 ```
 
@@ -69,5 +70,3 @@ Copy the bootstrap.dat file to the mapped volume directory as shown above, /loca
 Once the node has imported the bootstrap.dat file, it'll be renamed to bootstrap.dat.old.
 
 **TO THE MOON!!!**
-
-Much Receive: D6fhh4nDsYfyBjLFb1CaVZCq4xr7JPXsjQ

@@ -35,5 +35,7 @@ if [ "$1" = "dogecoind" ] || [ "$1" = "dogecoin-cli" ] || [ "$1" = "dogecoin-tx"
   exec gosu dogecoin "$@"
 fi
 
+chown -R dogecoin:dogecoin "$DOGECOIN_DATA"
+
 echo
 exec "$@"

@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  dogecoin:
+    image: dogecoin-core:1.14.6
+    volumes:
+      - /mnt/ssd/dogecoin:/home/dogecoin/.dogecoin
+    ports:
+      - 22556:22556
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+    networks:
+      - ha_swarm
+networks:
+  ha_swarm:
+    external: true
