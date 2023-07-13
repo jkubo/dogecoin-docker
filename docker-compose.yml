@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  dogecoin:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /mnt/ssd/dogecoin:/home/dogecoin/.dogecoin
+    ports:
+      - 22556:22556
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+    networks:
+      - ha_swarm
+networks:
+  ha_swarm:
+    external: true
