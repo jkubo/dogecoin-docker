@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  dogecoin:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /mnt/ssd/dogecoin:/home/dogecoin/.dogecoin
+    ports:
+      - 22556:22556
