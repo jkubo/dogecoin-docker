@@ -14,7 +14,7 @@ RUN groupadd --gid ${GID} dogecoin \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ARG TARGETPLATFORM
-ENV DOGECOIN_VERSION=1.14.6
+ENV DOGECOIN_VERSION=1.14.8
 ENV DOGECOIN_DATA=/home/dogecoin/.dogecoin
 ENV PATH=/opt/dogecoin-${DOGECOIN_VERSION}/bin:$PATH
 
